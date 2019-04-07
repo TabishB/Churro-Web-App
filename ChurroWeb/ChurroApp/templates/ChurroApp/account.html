@@ -1,0 +1,66 @@
+{% extends 'ChurroApp/base.html' %}
+{% block content %}
+<!-- Template file for accounts page-->
+<style>
+  .circle {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 0;
+  padding: 50% 0;
+  border-radius: 50%;
+  line-height:0;
+  /* Just making it pretty */
+  @shadow: rgba(0, 0, 0, .1);
+  @shadow-length: 4px;
+  -webkit-box-shadow: 0 @shadow-length 0 0 @shadow;
+  box-shadow: 0 @shadow-length 0 0 @shadow;
+  text-shadow: 0 @shadow-length 0 @shadow;
+  background: #17a2b8;
+  color: white;
+  font-family: Helvetica, Arial Black, sans;
+  font-size: 32px;
+  text-align: center;
+  }
+</style>
+<main role="main" class="container">
+  <div class="my-3 p-3 bg-white rounded shadow ">
+    <h4 class="border-bottom border-gray text-info pb-2 mb-0">Profile</h4>
+    <br>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-3 align-self-center border-right">
+          <div class="circle">
+            {{user.first_name}}
+          </div>
+          <br><br>
+          <h4 class = "text-center">Hi {{user.first_name}}!</h4>
+        </div>
+        <div class="col-6 align-self-center">
+          <dl class="row">
+            <dt class="col-sm-4 text-right">
+              <p class="font-weight-bold">Username:</p>
+            </dt>
+            <dd class="col-sm-8">{{user}}</dd>
+            <dt class="col-sm-4 text-right">
+              <p class="font-weight-bold">First Name:</p>
+            </dt>
+            <dd class="col-sm-8">{{user.first_name}}</dd>
+            <dt class="col-sm-4 text-right">
+              <p class="font-weight-bold">Last Name:</p>
+            </dt>
+            <dd class="col-sm-8">{{user.last_name}}</dd>
+            <dt class="col-sm-4  text-right">
+              <p class="font-weight-bold">Email:</p>
+            </dt>
+            <dd class="col-sm-8">{{user.email}}</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <small class="d-block text-right mt-3">
+    <a href="{% url 'edit_account' %}" class="btn btn-danger " role="button" >Edit</a>
+    </small>
+  </div>
+</main>
+{% endblock %}

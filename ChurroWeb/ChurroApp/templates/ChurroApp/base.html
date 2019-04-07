@@ -1,0 +1,111 @@
+{% load static %}
+<!-- Base template for a logged in user. Contains top navbar as well as a sidebar  -->
+<!--Navbar HTML used from: https://bootstrapious.com/p/bootstrap-sidebar  Author: Ondrej, creator of Bootstrapious-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Churro</title>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Navbar CSS -->
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <!-- Sidebar  -->
+      <nav id="sidebar">
+        <div id="dismiss">
+          <i class="fas fa-arrow-left"></i>
+        </div>
+        <div class="sidebar-header">
+          <h3>Churro</h3>
+        </div>
+        <ul class="list-unstyled components">
+          <li>
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+          </li>
+          <li>
+            <a href="{% url 'house' %}">House</a>
+          </li>
+          <li>
+            <a href="{% url 'chores' %}">Chores</a>
+          </li>
+          <li>
+            <a href="{% url 'bills' %}">Bills</a>
+          </li>
+          <li>
+            <a href="{% url 'items' %}">Items</a>
+          </li>
+        </ul>
+      </nav>
+      <!-- Page Content  -->
+      <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container-fluid">
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+            <i class="fas fa-align-left"></i>
+            <span></span>
+            </button>
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-align-justify"></i>
+            </button>
+            <a href ={% url 'dashboard' %}>
+            <h3 class=" text-white">
+            Churro
+            <h3>
+            </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="nav navbar-nav ml-auto">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</button>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href = "{%url 'account'%}">View Account</a>
+                    <a class="dropdown-item" href = "{%url 'logout'%}">Logout</a>
+                  </div>
+                </div>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+    <div class="overlay"></div>
+    <!-- Bootstrap core JavaScript
+      ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'js/jquery-3.3.1.slim.min.js' %}"></script>
+    <script>window.jQuery || document.write('<script src="{% static 'js/jquery-3.3.1.slim.min.js' %}"><\/script>')</script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $("#sidebar").mCustomScrollbar({
+          theme: "minimal"
+        });
+
+        $('#dismiss, .overlay').on('click', function () {
+          $('#sidebar').removeClass('active');
+          $('.overlay').removeClass('active');
+        });
+
+        $('#sidebarCollapse').on('click', function () {
+          $('#sidebar').addClass('active');
+          $('.overlay').addClass('active');
+          $('.collapse.in').toggleClass('in');
+          $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        });
+      });
+    </script>
+  </body>
+</html>

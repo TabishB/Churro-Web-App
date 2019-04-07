@@ -1,0 +1,11 @@
+{% extends 'ChurroApp/base.html' %}
+{% block content %}
+<main role="main" class="container">
+  <h1 class="mt-5">Hi {{name}}!</h1>
+  <p class="lead">
+    <a href="{% url 'house_new' %}" class="text-primary">Create </a> or
+    <a href="{% url 'house_join' %}" class="text-primary">Join </a>
+    a house to use Churro.
+  </p>
+</main>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Churro</title>
+    <!-- Our custom stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Churro</h1>
+        <nav>
+          <ul>
+            <li><a href="{% url 'login' %}"><span>Login</span></a></li>
+            <li><a href="{% url 'signup' %}"><span>Sign Up</span></a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <div class="container">
+        <h1 id="main_header">Churro</h1>
+        <p>Whether you're a house of one or a house of many, Churro is here to make your life easier. A place where  chores, bills, and shared items are shared equally between all housemates fairly, so you no longer have to get into long debates about who did what last.<br><br>What are you waiting for? A better sharehouse is a click away...</p>
+        <a href="{% url 'signup' %}" target="_parent">
+        <button>Sign Up Now!</button>
+        </a>
+      </div>
+    </main>
+  </body>
+</html>

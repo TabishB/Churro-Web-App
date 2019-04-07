@@ -1,0 +1,49 @@
+{% extends 'ChurroApp/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!doctype html>
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card rounded shadow">
+      <h4 class="card-header text-white bg-info">Items
+        <a href="{% url 'item_new' %}" class="btn btn-light float-right shadow">Add</a>
+      </h4>
+      <div class="card-body">
+        {% if items %}
+        <div class="item_form">
+          <table class = "table border-table table-hover" style="text-align: center;">
+            <thead>
+              <tr>
+                <th scope = "col">Item</th>
+                <th scope = "col">Status</th>
+                <th scope = "col">Next Buyer</th>
+                <th scope = "col">Last Restocked</th>
+                <th scope = "col">Restocked</th>
+                <th scope = "col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in items %}
+              <div class="Shared Items">
+                <tr>
+                  <td><a href="{% url 'item_edit' pk=item.pk %}">{{ item.name }}</a></td>
+                  <td><a href="{% url 'item_edit' pk=item.pk %}">{{ item.status }}</a></td>
+                  <td class="text-capitalize"><a href="{% url 'item_edit' pk=item.pk %}">{{ item.user_id.first_name }}</a></td>
+                  <td><a href="{% url 'item_edit' pk=item.pk %}">{{ item.last_restock }}</a></td>
+                  <td><a href="{% url 'item_complete' pk=item.pk %}" class="btn btn-success">✓</a></td>
+                  <td><a href="{% url 'item_delete' pk=item.pk %}" class="btn btn-danger">X</a></td>
+                </tr>
+              </div>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <p class = "text-center">You haven't added any items yet!</p>
+        <p class = "text-center">Click the add button on the top right to get started.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

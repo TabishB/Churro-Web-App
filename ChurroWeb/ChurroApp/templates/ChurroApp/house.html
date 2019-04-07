@@ -1,0 +1,49 @@
+{% extends 'ChurroApp/base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card rounded shadow">
+      <h5 class="card-header text-white bg-info">House Members</h5>
+      <div class="card-body">
+        <table class="table border-table" style="text-align: center;">
+          <thead>
+            <tr>
+              <th scope="col">Username</th>
+              <th scope="col">First Name</th>
+              <th scope="col">Last Name</th>
+              <th scope="col">Email</th>
+              <th scope='col'>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for profile in Profiles %}
+            <div class="chore">
+              <tr>
+                <td class="text-capitalize">{{profile.user}}</td>
+                <td class="text-capitalize">{{profile.user.first_name}}</td>
+                <td class="text-capitalize">{{profile.user.last_name}}</td>
+                <td class="text-capitalize">{{profile.user.email}}</td>
+                <td><a href="{% url 'delete_member' pk=profile.pk %}" class="btn btn-danger">X</a></td>
+              </tr>
+            </div>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2">
+    <div class="card rounded shadow">
+      <h5 class="card-header text-white bg-info" style="text-align: center;">Invite Code</h5>
+      <div class="card-body">
+        <p>Code: {{house.code}}</p>
+        <p>Joinable?: {{house.joined}}</p>
+        <a href="{% url 'toggle_joinable' %}" class="btn btn-outline-danger btn-sm">Toggle joinable</a>
+        <br>
+        <br>
+        <small>Use the code to invite others to join your house. Also use the toggle button to allow members to join your house</small>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

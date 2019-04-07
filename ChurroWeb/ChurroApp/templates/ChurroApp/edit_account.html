@@ -1,0 +1,43 @@
+{% extends 'ChurroApp/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+  .circle {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 0;
+  padding: 50% 0;
+  border-radius: 50%;
+  line-height:0;
+  /* Just making it pretty */
+  @shadow: rgba(0, 0, 0, .1);
+  @shadow-length: 4px;
+  -webkit-box-shadow: 0 @shadow-length 0 0 @shadow;
+  box-shadow: 0 @shadow-length 0 0 @shadow;
+  text-shadow: 0 @shadow-length 0 @shadow;
+  background: #17a2b8;
+  color: white;
+  font-family: Helvetica, Arial Black, sans;
+  font-size: 32px;
+  text-align: center;
+  }
+</style>
+<main role="main" class="container">
+  <!-- <h5 class="border-gray text-info pb-2 mb-0">Profile</h6> -->
+  <div class="my-3 p-3 bg-white rounded shadow">
+    <h4 class="border-bottom border-gray text-info pb-2 mb-0">Edit Account</h4>
+    <br>
+    <div class="container-fluid">
+      <!-- Content here -->
+      <!-- {% crispy form %} -->
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class = "btn btn-success">Submit</button>
+      </form>
+      <br>
+    </div>
+  </div>
+</main>
+{% endblock %}

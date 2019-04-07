@@ -1,0 +1,91 @@
+{% extends 'ChurroApp/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!doctype html>
+<html lang="en">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card rounded shadow">
+        <h4 class="card-header text-white bg-info">Chores
+          <a href="{% url 'chore_new' %}" class="btn btn-light float-right shadow">Add Chore</a>
+        </h4>
+        <div class="card-body">
+          {% if chores %}
+          <div class="chore_form">
+            <table class="table border-table table-hover" style="text-align: center;">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Chore</th>
+                  <th scope="col">Due</th>
+                  <th scope="col">Done</th>
+                  <th scope="col">Set Done</th>
+                  <th scope="col">Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for chore in chores %}
+                <div class="chore">
+                  <tr>
+                    <td class="text-capitalize"><a href="{% url 'chore_edit' pk=chore.pk %}">{{chore.user_id.first_name}}</a></td>
+                    <td><a href="{% url 'chore_edit' pk=chore.pk %}">{{ chore.name }}</a></td>
+                    <td><a href="{% url 'chore_edit' pk=chore.pk %}">{{ chore.date }}</a></td>
+                    <td><a href="{% url 'chore_edit' pk=chore.pk %}">{{ chore.status}}</a></td>
+                    <td><a href="{% url 'chore_complete' pk=chore.pk %}" class="btn btn-success">✓</a></td>
+                    <td><a href="{% url 'chore_delete' pk=chore.pk %}" class="btn btn-danger">X</a></td>
+                  </tr>
+                </div>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <p class = "text-center">Sorry you havent added any chores yet!</p>
+          <p class = "text-center"> Click the add button on the top right to get started.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <br></br>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card rounded shadow">
+        <h4 class="card-header text-white bg-info">Completed Chores</h4>
+        <div class="card-body">
+          {% if completed_chores %}
+          <div class="chore_form">
+            <table class="table border-table" style="text-align: center;">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Chore</th>
+                  <th scope="col">Due</th>
+                  <th scope="col">Done</th>
+                  <th scope="col">Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for chore in completed_chores %}
+                <div class="chore">
+                  <tr>
+                    <td class="text-capitalize"><a href="{% url 'chore_edit' pk=chore.pk %}">{{chore.user_id.first_name}}</a></td>
+                    <td><a href="{% url 'chore_edit' pk=chore.pk %}">{{ chore.name }}</a></td>
+                    <td><a href="{% url 'chore_edit' pk=chore.pk %}">{{ chore.date }}</a></td>
+                    <td><a href="{% url 'chore_edit' pk=chore.pk %}">{{ chore.status}}</a></td>
+                    <td><a href="{% url 'chore_delete' pk=chore.pk %}" class="btn btn-danger">X</a></td>
+                  </tr>
+                </div>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <p class = "text-center">Sorry you havent completed any chores yet!</p>
+          <p class = "text-center"> Complete a chore above by clicking on the green button.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

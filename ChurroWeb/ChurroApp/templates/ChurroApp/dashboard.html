@@ -1,0 +1,210 @@
+{% extends 'ChurroApp/base.html' %}
+{% block content %}
+<script>
+  function checkTime(i) {
+    if (i < 10) {
+      i = "0" + i;
+    }
+    return i;
+  }
+
+  var alertShown = false;
+  function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+
+    m = checkTime(m);
+    s = checkTime(s);
+    time = h + ":" + m;
+    timer = setTimeout(function() {
+      if ("{{reminder_times}}".includes(time) && alertShown == false) {
+        NotifyMe();
+        alertShown = true;
+      }
+      if (alertShown == true && s == 59) {
+        console.log('setting false')
+        alertShown = false;
+      }
+      startTime();
+    }, 1000);
+  }
+
+  function NotifyMe() {
+    if(!("Notification" in window)) {
+        alert("Error");
+    }
+    else if (Notification.permission == "granted") {
+      var notification = new Notification("Churro: Check your Dashboard, there's a reminder you have to see!")
+      console.log('showing alert')
+    }
+    else if(Notification.permission!="denied") {
+      Notification.requestPermission();
+    }
+  }
+  startTime();
+</script>
+<!-- Future Notices -->
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card rounded shadow">
+      <h4 class="card-header border-white text-info bg-white">Reminders
+        <a href="{% url 'reminder_new' %}" class="btn btn-outline-info float-right shadow">Add</a>
+      </h4>
+      <div class="card-body">
+        <div class="chore_form">
+          {% if reminders %}
+          <table class="table border-table" style="text-align: center;">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for reminder in reminders %}
+              <div class="reminder">
+                <tr>
+                  <td class="text-capitalize"><a href="{% url 'reminder_edit' pk=reminder.pk %}">{{ reminder.name }}</a></td>
+                  <td><a href="{% url 'reminder_edit' pk=reminder.pk %}">{{ reminder.date }}</a></td>
+                  <td><a href="{% url 'reminder_edit' pk=reminder.pk %}">{{ reminder.time }}</a></td>
+                  <td><a href="{% url 'reminder_delete' pk=reminder.pk %}" class="btn btn-danger">X</a></td>
+                </tr>
+              </div>
+              {% empty %}
+              <p class = "text-center">Sorry there are no reminders. Click the add button on the top right to add some!</p>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+          <p class = "text-center">Sorry there are no reminders. Click the add button on the top right to add some!</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br></br>
+<!-- User and their respective chores -->
+<div class="row justify-content-center">
+  {% for profile in profiles %}
+  <div class="card text-center rounded shadow" style="margin-right: 30px; margin-top: 10px;">
+    <div class="rounded-circle border border-info" style="width: 120px; height: 120px; margin:0 auto; margin-top: 25px;">
+      <p class="text-info font-weight-bold text-capitalize"style="margin:0 auto; line-height: 120px;">{{ profile.user.first_name }}</p>
+    </div>
+    <div class="card-body">
+      {% if chores %}
+      <div class="chore_form">
+        <table class="table" style="text-align: center;">
+          <thead>
+            <tr>
+              <th scope="col">Chore</th>
+              <th scope="col">Due</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for chore in chores %}
+            {% if chore.user_id_id == profile.user_id %}
+            <div class="chore">
+              <tr>
+                <td><a href="{% url 'chores'%}">{{ chore.name }}</a></td>
+                <td><a href="{% url 'chores'%}">{{ chore.date }}</a></td>
+              </tr>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p class = "text-center">There are no chores left this week for this user.</p>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<br></br>
+<!-- empty or low items -->
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card rounded shadow">
+      <h5 class="card-header text-white bg-info">Items</h5>
+      <div class="card-body">
+        {% if items %}
+        <div class="item_form">
+          <table class = "table border-table" style="text-align: center;">
+            <thead>
+              <tr>
+                <th scope = "col">Item</th>
+                <th scope = "col">Status</th>
+                <th scope = "col">Next Buyer</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in items %}
+              <div class="Shared Items">
+                <tr>
+                  <td class="text-capitalize"><a href="{% url 'items' %}">{{ item.name }}</a></td>
+                  <td>
+                    <a href="{% url 'items' %}">
+                      {{ item.status }}
+                  </td>
+                  <td class="text-capitalize"><a href="{% url 'items' %}">{{ item.user_id.first_name }}</a></td>
+                </tr>
+              </div>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <p class = "text-center">There are no items that are low or empty.</p>
+        <p class = "text-center">Go to the items page through the sidebar to add some!</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<br></br>
+<!-- Bills -->
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card rounded shadow">
+      <h5 class="card-header text-white bg-info">Bills</h5>
+      <div class="card-body">
+        {%if bills%}
+        <div class="bill_form">
+          <table class="table border-table" style="text-align: center;">
+            <thead>
+              <tr>
+                <th scope="col">Bill</th>
+                <th scope="col">Next Due</th>
+                <th scope="col">Total</th>
+                <th scope="col">Split Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for bill in bills %}
+              <div class="bill">
+                <tr>
+                  <td class="text-capitalize"><a href="{% url 'bills'%}">{{ bill.name }}</a></td>
+                  <td><a href="{% url 'bills'%}">{{ bill.due_date }}</a></td>
+                  <td><a href="{% url 'bills'%}">${{ bill.total_amount }}</a></td>
+                  <td><a href="{% url 'bills'%}">${{ bill.bill_split }}</a></td>
+                </tr>
+              </div>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <p class = "text-center">There are no overdue bills/upcoming bills due in the next week.</p>
+        <p class = "text-center"> Go to the bills page through the sidebar to add some!</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

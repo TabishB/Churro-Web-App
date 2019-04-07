@@ -1,0 +1,45 @@
+{% extends 'ChurroApp/landingbase.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+  body{
+  background-color: #17a2b8;
+  }
+</style>
+<div class="container">
+  <br>
+  <br>
+  <br>
+  <br>
+  <div class=" mx-auto p-6 bg-white rounded shadow" style = "width: 42rem;">
+    <div class="row justify-content-center">
+      <div class="col-md-6 ">
+        <div class="text-center mb-4">
+          <img class="mb-4" src="" alt="" width="72" height="72">
+        </div>
+        <!-- {%crispy form%} -->
+        <h2>Sign up</h2>
+        <form method="post">
+          {% csrf_token %}
+          {% for field in form %}
+          <p>
+            {{ field.label_tag }}<br>
+            {{ field }}
+            {% if field.help_text %}
+            {% endif %}
+            {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+          {% endfor %}
+          </p>
+          {% endfor %}
+          <button type="submit" class = "btn btn-success">Sign up</button>
+        </form>
+        <br>
+        <a href="{% url 'login' %}">Already have an account? Login here.</a>
+      </div>
+      <br>
+    </div>
+    <br>
+  </div>
+</div>
+{% endblock %}
